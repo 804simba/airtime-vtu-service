@@ -1,4 +1,4 @@
-package com.xpresspayments.api.core.builder;
+package com.xpresspayments.api.core.builders;
 
 import com.xpresspayments.api.model.dto.user.SignUpRequest;
 import com.xpresspayments.api.model.entity.Contact;

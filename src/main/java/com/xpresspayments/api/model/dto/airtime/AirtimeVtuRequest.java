@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -23,6 +23,11 @@ public class AirtimeVtuRequest implements Serializable {
 
     @JsonProperty(value = "uniqueCode", required = true)
     private String uniqueCode;
+
+    @JsonProperty("details")
+    private Details details;
+
+
 
     @Data
     @NoArgsConstructor

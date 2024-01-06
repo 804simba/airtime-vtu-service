@@ -1,14 +1,20 @@
 package com.xpresspayments.api.rest.controller;
 
+import com.xpresspayments.api.core.exception.InvalidRequestException;
 import com.xpresspayments.api.model.dto.airtime.AirtimeVtuRequest;
+import com.xpresspayments.api.model.dto.base.BaseResponse;
+import com.xpresspayments.api.model.dto.user.PurchaseAirtimeRequest;
 import com.xpresspayments.api.rest.service.AirtimeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,8 +23,15 @@ public class AirtimeController {
 
     private final AirtimeService airtimeService;
 
-    @PostMapping
-    public void purchaseAirtime(@RequestBody @Validated AirtimeVtuRequest airtimeVtuRequest) {
-
+    @PostMapping("/purchase")
+    public ResponseEntity<?> purchaseAirtime(@RequestBody @Valid PurchaseAirtimeRequest purchaseAirtimeRequest, Principal principal) {
+        ResponseEntity<?> response;
+        try {
+            BaseResponse<?> br = airtimeService.purchaseAirtime(purchaseAirtimeRequest, principal);
+            response = ResponseEntity.ok(br);
+        } catch (InvalidRequestException e) {
+           response =  ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return response;
     }
 }

@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "users_tbl")
@@ -31,6 +32,9 @@ public class User extends BaseEntity {
     @Column(name = "user_type")
     @Enumerated(EnumType.STRING)
     private UserType userType;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<VtuAirtimeTransaction> vtuAirtimeTransactions;
 
     @Embedded
     private Contact contact;

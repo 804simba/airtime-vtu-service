@@ -1,6 +1,6 @@
 package com.xpresspayments.api.rest.service.impl;
 
-import com.xpresspayments.api.core.builder.UserRecordBuilder;
+import com.xpresspayments.api.core.builders.UserRecordBuilder;
 import com.xpresspayments.api.core.exception.InvalidCredentialsException;
 import com.xpresspayments.api.core.security.XpressJwtService;
 import com.xpresspayments.api.core.utils.PasswordUtils;
