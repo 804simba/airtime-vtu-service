@@ -1,7 +1,7 @@
 package com.xpresspayments.api.core.config;
 
 import com.xpresspayments.api.core.security.XpressJwtAuthenticationFilter;
-import com.xpresspayments.api.rest.service.ApplicationUserDetailsService;
+import com.xpresspayments.api.rest.service.XpressPaymentsUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,19 +25,19 @@ public class SecurityConfiguration {
 
     private final ApplicationAuthenticationEntryPoint authenticationEntryPoint;
 
-    private final ApplicationUserDetailsService applicationUserDetailsService;
+    private final XpressPaymentsUserDetailsService xpressPaymentsUserDetailsService;
 
     private final PasswordEncoder passwordEncoder;
 
     private final String[] allowedEndpoints = new String[]{"/v2/api-docs",
             "/v3/api-docs", "/v3/api-docs/**", "/swagger-resources", "/swagger-resources/**",
             "/configuration/ui", "/configuration/security", "/swagger-ui/**", "/webjars/**",
-            "/swagger-ui.html", "/", "/home", "/api/v1/users/register/**", "/api/v1/users/login/**"};
+            "/swagger-ui.html", "/", "/home", "/api/v1/users/**"};
 
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class)
-                .userDetailsService(applicationUserDetailsService)
+                .userDetailsService(xpressPaymentsUserDetailsService)
                 .passwordEncoder(passwordEncoder)
                 .and().build();
     }
@@ -50,8 +50,7 @@ public class SecurityConfiguration {
                 .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(authenticationEntryPoint))
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
-                    authorizationManagerRequestMatcherRegistry.requestMatchers(allowedEndpoints).permitAll();
-                    authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
+                    authorizationManagerRequestMatcherRegistry.requestMatchers(allowedEndpoints).permitAll().anyRequest().authenticated();
                 }).addFilterBefore(xpressJwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).logout(LogoutConfigurer::permitAll);
         return httpSecurity.build();
     }

@@ -18,7 +18,7 @@ import com.xpresspayments.api.model.enums.TransactionStatus;
 import com.xpresspayments.api.model.repository.TelecomNetworkProviderRepository;
 import com.xpresspayments.api.model.repository.UserRepository;
 import com.xpresspayments.api.model.repository.VtuAirtimeTransactionRepository;
-import com.xpresspayments.api.rest.service.AirtimeService;
+import com.xpresspayments.api.rest.service.XpressPaymentsAirtimeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -32,7 +32,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AirtimeServiceImpl implements AirtimeService {
+public class XpressPaymentsAirtimeServiceImpl implements XpressPaymentsAirtimeService {
 
     private final BillerApiFeignClient billerApiFeignClient;
 

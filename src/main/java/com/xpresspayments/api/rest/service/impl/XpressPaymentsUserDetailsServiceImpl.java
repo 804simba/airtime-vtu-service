@@ -2,7 +2,7 @@ package com.xpresspayments.api.rest.service.impl;
 
 import com.xpresspayments.api.model.entity.User;
 import com.xpresspayments.api.model.repository.UserRepository;
-import com.xpresspayments.api.rest.service.ApplicationUserDetailsService;
+import com.xpresspayments.api.rest.service.XpressPaymentsUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ApplicationUserDetailsServiceImpl implements ApplicationUserDetailsService {
+public class XpressPaymentsUserDetailsServiceImpl implements XpressPaymentsUserDetailsService {
 
     private final UserRepository userRepository;
 

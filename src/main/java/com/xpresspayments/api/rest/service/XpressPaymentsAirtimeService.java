@@ -5,6 +5,6 @@ import com.xpresspayments.api.model.dto.user.PurchaseAirtimeRequest;
 
 import java.security.Principal;
 
-public interface AirtimeService {
+public interface XpressPaymentsAirtimeService {
     BaseResponse<?> purchaseAirtime(PurchaseAirtimeRequest purchaseAirtimeRequest, Principal principal);
 }

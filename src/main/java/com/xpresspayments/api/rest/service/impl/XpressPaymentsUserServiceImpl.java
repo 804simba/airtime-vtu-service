@@ -10,7 +10,7 @@ import com.xpresspayments.api.model.dto.user.SignUpRequest;
 import com.xpresspayments.api.model.dto.user.AuthenticationToken;
 import com.xpresspayments.api.model.entity.User;
 import com.xpresspayments.api.model.repository.UserRepository;
-import com.xpresspayments.api.rest.service.UserService;
+import com.xpresspayments.api.rest.service.XpressPaymentsUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class XpressPaymentsUserServiceImpl implements XpressPaymentsUserService {
 
     private final AuthenticationManager authenticationManager;
 

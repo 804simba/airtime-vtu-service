@@ -1,6 +1,6 @@
 package com.xpresspayments.api.core.security;
 
-import com.xpresspayments.api.rest.service.ApplicationUserDetailsService;
+import com.xpresspayments.api.rest.service.XpressPaymentsUserDetailsService;
 import com.xpresspayments.api.core.utils.Constants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,7 +24,7 @@ public class XpressJwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final XpressJwtService xpressJwtService;
 
-    private final ApplicationUserDetailsService applicationUserDetailsService;
+    private final XpressPaymentsUserDetailsService xpressPaymentsUserDetailsService;
     
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
@@ -40,7 +40,7 @@ public class XpressJwtAuthenticationFilter extends OncePerRequestFilter {
         emailAddress = xpressJwtService.extractUsername(jwt);
 
         if (!ObjectUtils.isEmpty(emailAddress) && ObjectUtils.isEmpty(SecurityContextHolder.getContext().getAuthentication())) {
-            UserDetails userDetails = applicationUserDetailsService.loadUserByUsername(emailAddress);
+            UserDetails userDetails = xpressPaymentsUserDetailsService.loadUserByUsername(emailAddress);
             if (!ObjectUtils.isEmpty(userDetails)) {
                 if (xpressJwtService.isValidToken(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
