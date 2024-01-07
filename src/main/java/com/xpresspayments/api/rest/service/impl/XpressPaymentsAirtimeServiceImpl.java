@@ -12,6 +12,7 @@ import com.xpresspayments.api.model.dto.airtime.AirtimeVtuRequest;
 import com.xpresspayments.api.model.dto.airtime.AirtimeVtuResponse;
 import com.xpresspayments.api.model.dto.base.BaseResponse;
 import com.xpresspayments.api.model.dto.user.PurchaseAirtimeRequest;
+import com.xpresspayments.api.model.dto.user.PurchaseAirtimeResponse;
 import com.xpresspayments.api.model.entity.TelecomNetworkProvider;
 import com.xpresspayments.api.model.entity.User;
 import com.xpresspayments.api.model.entity.VtuAirtimeTransaction;
@@ -78,7 +79,10 @@ public class XpressPaymentsAirtimeServiceImpl implements XpressPaymentsAirtimeSe
                               vtuAirtimeTransaction.setTransactionStatus(TransactionStatus.FAILED);
                           }
                           vtuAirtimeTransactionRepository.save(vtuAirtimeTransaction);
-                          br = BaseResponse.builder().responseCode(HttpStatus.OK.value()).responseMessage("airtime purchase successful").payload(vtuAirtimeTransaction).build();
+
+                          PurchaseAirtimeResponse purchaseAirtimeResponse = PurchaseAirtimeResponse.builder().mobileNumber(vtuAirtimeTransaction.getMobileNumber())
+                                  .transactionStatus(vtuAirtimeTransaction.getTransactionStatus().toString()).amount(vtuAirtimeTransaction.getAmount()).createdAt(vtuAirtimeTransaction.getCreatedAt()).build();
+                          br = BaseResponse.builder().responseCode(HttpStatus.OK.value()).responseMessage("airtime purchase successful").payload(purchaseAirtimeResponse).build();
                       } else {
                           throw new GenericException("invalid response from biller airtime service");
                       }
