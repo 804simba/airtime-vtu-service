@@ -37,8 +37,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class XpressPaymentsAirtimeServiceImpl implements XpressPaymentsAirtimeService {
 
-    //private final BillerApiFeignClient billerApiFeignClient;
-
     private final BillerServiceRequestConfigurer billerServiceRequestConfigurer;
 
     private final UserRepository userRepository;
