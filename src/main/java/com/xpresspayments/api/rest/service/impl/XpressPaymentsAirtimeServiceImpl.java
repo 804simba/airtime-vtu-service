@@ -4,7 +4,8 @@ import com.xpresspayments.api.core.builders.VtuAirtimeTransactionBuilder;
 import com.xpresspayments.api.core.exception.AirtimePurchaseException;
 import com.xpresspayments.api.core.exception.GenericException;
 import com.xpresspayments.api.core.exception.InvalidRequestException;
-import com.xpresspayments.api.core.network.BillerApiFeignClient;
+import com.xpresspayments.api.core.network.XpressPaymentRequestHandler;
+import com.xpresspayments.api.core.network.handlers.BillerServiceRequestConfigurer;
 import com.xpresspayments.api.core.utils.BillerTransactionIdGenerator;
 import com.xpresspayments.api.core.utils.Constants;
 import com.xpresspayments.api.model.dto.airtime.AirtimeVtuRequest;
@@ -21,12 +22,14 @@ import com.xpresspayments.api.model.repository.VtuAirtimeTransactionRepository;
 import com.xpresspayments.api.rest.service.XpressPaymentsAirtimeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.security.Principal;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -34,13 +37,17 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class XpressPaymentsAirtimeServiceImpl implements XpressPaymentsAirtimeService {
 
-    private final BillerApiFeignClient billerApiFeignClient;
+    //private final BillerApiFeignClient billerApiFeignClient;
+
+    private final BillerServiceRequestConfigurer billerServiceRequestConfigurer;
 
     private final UserRepository userRepository;
 
     private final TelecomNetworkProviderRepository telecomNetworkProviderRepository;
 
     private final VtuAirtimeTransactionRepository vtuAirtimeTransactionRepository;
+
+    private final XpressPaymentRequestHandler xpressPaymentRequestHandler;
 
     @Override
     public BaseResponse<?> purchaseAirtime(PurchaseAirtimeRequest purchaseAirtimeRequest, Principal principal) {
@@ -59,8 +66,13 @@ public class XpressPaymentsAirtimeServiceImpl implements XpressPaymentsAirtimeSe
                       details.setAmount(purchaseAirtimeRequest.getAmount());
                       details.setPhoneNumber(purchaseAirtimeRequest.getPhoneNumber());
                       airtimeVtuRequest.setDetails(details);
-                      AirtimeVtuResponse airtimeVtuResponse = billerApiFeignClient.purchaseAirtime(airtimeVtuRequest);
 
+                      // TODO: CONFIGURE THE REQUEST HEADERS BEFORE SENDING IT TO BILLER SERVICE
+
+                      //AirtimeVtuResponse airtimeVtuResponse = billerApiFeignClient.purchaseAirtime(airtimeVtuRequest);
+                      Map<String, String> headers = billerServiceRequestConfigurer.configureBillerRequestHeader(airtimeVtuRequest);
+
+                      AirtimeVtuResponse airtimeVtuResponse = (AirtimeVtuResponse) xpressPaymentRequestHandler.sendNetworkPostRequest(Constants.BillerServiceEndpoints.PURCHASE_AIRTIME, airtimeVtuRequest, AirtimeVtuResponse.class, headers);
                       VtuAirtimeTransaction vtuAirtimeTransaction = VtuAirtimeTransactionBuilder.mapResponseToVtuAirtimeTransaction(airtimeVtuRequest, foundUser.get());
                       if (!ObjectUtils.isEmpty(airtimeVtuResponse)){
                           if (airtimeVtuResponse.getResponseCode().equals(Constants.BILLER_SUCCESS_CODE) &&

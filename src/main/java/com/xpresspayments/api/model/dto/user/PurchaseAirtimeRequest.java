@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class PurchaseAirtimeRequest {
 
-    @JsonProperty(value = "phoneNumber", required = true)
+    @JsonProperty(value = "phone_number", required = true)
     private final String phoneNumber;
 
     @JsonProperty(value = "amount", required = true)

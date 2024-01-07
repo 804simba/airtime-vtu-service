@@ -28,6 +28,7 @@ public class NetworkProviderDBSeeder implements CommandLineRunner {
         for (NetworkProvider provider : NetworkProvider.values()) {
             TelecomNetworkProvider networkProvider = new TelecomNetworkProvider();
             networkProvider.setNetworkProvider(provider);
+            networkProvider.setProviderName(provider.name().toUpperCase());
             networkProvider.setUniqueCode(uniqueCodes.get(provider.toString()));
             networkProviderRepository.save(networkProvider);
         }

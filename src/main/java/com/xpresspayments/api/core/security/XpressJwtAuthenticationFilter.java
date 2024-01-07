@@ -28,7 +28,7 @@ public class XpressJwtAuthenticationFilter extends OncePerRequestFilter {
     
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        final String authenticationHeader = request.getHeader(Constants.AUTHENTICATION);
+        final String authenticationHeader = request.getHeader(Constants.AUTHORIZATION);
         final String jwt;
         final String emailAddress;
 
