@@ -4,8 +4,8 @@ import com.xpresspayments.api.core.builders.VtuAirtimeTransactionBuilder;
 import com.xpresspayments.api.core.exception.AirtimePurchaseException;
 import com.xpresspayments.api.core.exception.GenericException;
 import com.xpresspayments.api.core.exception.InvalidRequestException;
-import com.xpresspayments.api.core.network.XpressPaymentRequestHandler;
-import com.xpresspayments.api.core.network.handlers.BillerServiceRequestConfigurer;
+import com.xpresspayments.api.core.network.handlers.XpressPaymentRequestHandler;
+import com.xpresspayments.api.core.network.config.BillerServiceRequestConfigurer;
 import com.xpresspayments.api.core.utils.BillerTransactionIdGenerator;
 import com.xpresspayments.api.core.utils.Constants;
 import com.xpresspayments.api.model.dto.airtime.AirtimeVtuRequest;
@@ -22,7 +22,6 @@ import com.xpresspayments.api.model.repository.VtuAirtimeTransactionRepository;
 import com.xpresspayments.api.rest.service.XpressPaymentsAirtimeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -67,12 +66,10 @@ public class XpressPaymentsAirtimeServiceImpl implements XpressPaymentsAirtimeSe
                       details.setPhoneNumber(purchaseAirtimeRequest.getPhoneNumber());
                       airtimeVtuRequest.setDetails(details);
 
-                      // TODO: CONFIGURE THE REQUEST HEADERS BEFORE SENDING IT TO BILLER SERVICE
-
-                      //AirtimeVtuResponse airtimeVtuResponse = billerApiFeignClient.purchaseAirtime(airtimeVtuRequest);
                       Map<String, String> headers = billerServiceRequestConfigurer.configureBillerRequestHeader(airtimeVtuRequest);
+                      AirtimeVtuResponse airtimeVtuResponse = (AirtimeVtuResponse) xpressPaymentRequestHandler
+                              .sendNetworkPostRequest(Constants.BillerServiceEndpoints.PURCHASE_AIRTIME, airtimeVtuRequest, AirtimeVtuResponse.class, headers);
 
-                      AirtimeVtuResponse airtimeVtuResponse = (AirtimeVtuResponse) xpressPaymentRequestHandler.sendNetworkPostRequest(Constants.BillerServiceEndpoints.PURCHASE_AIRTIME, airtimeVtuRequest, AirtimeVtuResponse.class, headers);
                       VtuAirtimeTransaction vtuAirtimeTransaction = VtuAirtimeTransactionBuilder.mapResponseToVtuAirtimeTransaction(airtimeVtuRequest, foundUser.get());
                       if (!ObjectUtils.isEmpty(airtimeVtuResponse)){
                           if (airtimeVtuResponse.getResponseCode().equals(Constants.BILLER_SUCCESS_CODE) &&

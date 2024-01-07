@@ -1,4 +1,4 @@
-package com.xpresspayments.api.core.network;
+package com.xpresspayments.api.core.network.handlers;
 
 import com.xpresspayments.api.core.exception.GenericException;
 import lombok.RequiredArgsConstructor;

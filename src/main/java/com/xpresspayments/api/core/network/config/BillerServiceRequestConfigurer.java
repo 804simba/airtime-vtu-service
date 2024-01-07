@@ -1,4 +1,4 @@
-package com.xpresspayments.api.core.network.handlers;
+package com.xpresspayments.api.core.network.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
