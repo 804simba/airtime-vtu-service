@@ -58,10 +58,6 @@ public class XpressPaymentsUserServiceImpl implements XpressPaymentsUserService 
             throw new InvalidCredentialsException("wrong username or password");
         }
         User foundUser = userRepository.findUserByContact_EmailAddress(loginRequest.getEmailAddress()).get();
-        if (ObjectUtils.isEmpty(foundUser.getFirstLoginDate())) {
-            foundUser.setFirstLoginDate(LocalDateTime.now());
-        }
-        foundUser.setLastLoginDate(LocalDateTime.now());
         auditLoginActivity(foundUser);
 
         AuthenticationToken authenticationToken = xpressJwtService.generateToken(foundUser);
