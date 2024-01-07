@@ -32,7 +32,7 @@ public class BillerServiceRequestConfigurer {
         headers.put("PaymentHash", calculateHMAC512(requestInJsonFormat));
         headers.put("Authorization", "Bearer " + billerServicePublicKey);
         headers.put("Channel", "API");
-        headers.put("Content-Type:", "application/json");
+        headers.put("Content-Type", "application/json");
         return headers;
     }
 

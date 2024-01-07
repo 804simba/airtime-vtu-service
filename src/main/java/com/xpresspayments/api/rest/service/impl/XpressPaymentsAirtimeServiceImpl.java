@@ -72,8 +72,7 @@ public class XpressPaymentsAirtimeServiceImpl implements XpressPaymentsAirtimeSe
 
                       VtuAirtimeTransaction vtuAirtimeTransaction = VtuAirtimeTransactionBuilder.mapResponseToVtuAirtimeTransaction(airtimeVtuRequest, foundUser.get());
                       if (!ObjectUtils.isEmpty(airtimeVtuResponse)){
-                          if (airtimeVtuResponse.getResponseCode().equals(Constants.BILLER_SUCCESS_CODE) &&
-                                  airtimeVtuResponse.getResponseMessage().equals(Constants.BILLER_SUCCESS_MESSAGE)) {
+                          if (airtimeVtuResponse.getResponseCode().equals(Constants.BILLER_SUCCESS_CODE)) {
                               vtuAirtimeTransaction.setTransactionStatus(TransactionStatus.SUCCESSFUL);
                           } else {
                               vtuAirtimeTransaction.setTransactionStatus(TransactionStatus.FAILED);

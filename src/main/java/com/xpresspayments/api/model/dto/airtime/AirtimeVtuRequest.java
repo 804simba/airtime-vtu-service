@@ -27,8 +27,6 @@ public class AirtimeVtuRequest implements Serializable {
     @JsonProperty("details")
     private Details details;
 
-
-
     @Data
     @NoArgsConstructor
     @AllArgsConstructor

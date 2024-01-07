@@ -1,5 +1,6 @@
 package com.xpresspayments.api.core.seeder;
 
+import com.xpresspayments.api.core.utils.Constants;
 import com.xpresspayments.api.model.entity.TelecomNetworkProvider;
 import com.xpresspayments.api.model.enums.NetworkProvider;
 import com.xpresspayments.api.model.repository.TelecomNetworkProviderRepository;
@@ -22,7 +23,7 @@ public class NetworkProviderDBSeeder implements CommandLineRunner {
 
     private void seedNetworkProviders() {
         Map<String, String> uniqueCodes = new HashMap<>();
-        uniqueCodes.put("MTN", "MTN_24207");
+        uniqueCodes.put("MTN", Constants.NetworkProviderUniqueCodes.MTN);
         // TODO: add other unique codes for other providers
 
         for (NetworkProvider provider : NetworkProvider.values()) {
